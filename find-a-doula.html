@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Doula | The Fourth Trimester Co.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'earth-50': '#f9f8f6',
+                        'earth-100': '#f0ede8',
+                        'earth-200': '#e0d9d0',
+                        'sage-400': '#8fa396',
+                        'sage-500': '#6b8a75',
+                        'sage-600': '#5a7563',
+                        'clay-400': '#d4a594',
+                        'clay-500': '#c28b7a',
+                        'clay-600': '#a86f5d',
+                        'deep-forest': '#2c3e35'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'slide-in': 'slideIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .filter-active {
+            background-color: #5a7563;
+            color: white;
+        }
+        .doula-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .doula-card.hidden-card {
+            display: none;
+        }
+        .star-rating {
+            color: #fbbf24;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0ede8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8fa396;
+            border-radius: 5px;
+        }
+        .modal-enter {
+            animation: modalEnter 0.3s ease-out forwards;
+        }
+        @keyframes modalEnter {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-700 bg-earth-50 antialiased selection:bg-sage-200 selection:text-sage-900">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.location.href='fourthtrimesterindex.html'">
+                    <div class="relative w-10 h-10">
+                        <svg viewBox="0 0 100 100" class="w-full h-full fill-sage-500">
+                            <path d="M50 10 C30 10, 10 30, 10 50 C10 70, 30 90, 50 90 C70 90, 90 70, 90 50 C90 30, 70 10, 50 10 Z M50 20 C65 20, 80 35, 80 50 C80 65, 65 80, 50 80 C35 80, 20 65, 20 50 C20 35, 35 20, 50 20 Z" opacity="0.3"/>
+                            <path d="M50 25 C40 25, 30 35, 30 50 C30 65, 40 75, 50 75 C60 75, 70 65, 70 50 C70 35, 60 25, 50 25" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif text-xl font-bold text-deep-forest tracking-wide">FOURTH TRIMESTER</span>
+                        <span class="text-xs tracking-[0.3em] text-sage-600 uppercase">Two Lives, One Care</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="fourthtrimesterindex.html#mission" class="text-deep-forest hover:text-clay-600 font-medium transition-colors">Our Mission</a>
+                    <a href="fourthtrimesterindex.html#platform" class="text-deep-forest hover:text-clay-600 font-medium transition-colors">Platform</a>
+                    <a href="fourthtrimesterindex.html#features" class="text-deep-forest hover:text-clay-600 font-medium transition-colors">Features</a>
+                    <a href="join-as-doula.html" class="text-deep-forest hover:text-clay-600 font-medium transition-colors">For Doulas</a>
+                      <a href="join-as-doula.html" class="bg-sage-600 text-white px-6 py-2 rounded-full hover:bg-sage-700 transition-all transform hover:scale-105 shadow-lg inline-block text-center">
+    Join as Doula
+</a>              </div>
+
+                <div class="md:hidden flex items-center">
+                    <button class="text-deep-forest hover:text-clay-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-16 bg-gradient-to-br from-earth-100 via-white to-sage-100">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-clay-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-sage-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 2s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="text-sage-600 font-semibold tracking-wider uppercase text-sm mb-2 block">Verified Network</span>
+                <h1 class="font-serif text-5xl md:text-6xl text-deep-forest mb-6">Find Your Perfect Doula</h1>
+                <p class="text-xl text-gray-600 mb-8">
+                    Browse our network of certified, background-checked birth and postpartum doulas in Mumbai. 
+                    Filter by location, language, specialization, and availability.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="bg-white rounded-full shadow-xl p-2 flex flex-col md:flex-row gap-2 max-w-4xl mx-auto border border-gray-200">
+                    <div class="flex-1 flex items-center px-4 py-3 border-b md:border-b-0 md:border-r border-gray-200">
+                        <i class="fas fa-search text-gray-400 mr-3"></i>
+                        <input type="text" id="searchInput" placeholder="Search by name or keyword..." class="w-full outline-none text-gray-700 bg-transparent">
+                    </div>
+                    <div class="flex-1 flex items-center px-4 py-3 border-b md:border-b-0 md:border-r border-gray-200">
+                        <i class="fas fa-map-marker-alt text-gray-400 mr-3"></i>
+                        <select id="locationSelect" class="w-full outline-none text-gray-700 bg-transparent cursor-pointer">
+                            <option value="">All Locations</option>
+                            <option value="bandra">Bandra</option>
+                            <option value="andheri">Andheri</option>
+                            <option value="juhu">Juhu</option>
+                            <option value="powai">Powai</option>
+                            <option value="south-mumbai">South Mumbai</option>
+                            <option value="thane">Thane</option>
+                        </select>
+                    </div>
+                    <div class="flex-1 flex items-center px-4 py-3">
+                        <i class="fas fa-baby text-gray-400 mr-3"></i>
+                        <select id="serviceSelect" class="w-full outline-none text-gray-700 bg-transparent cursor-pointer">
+                            <option value="">All Services</option>
+                            <option value="birth">Birth Doula</option>
+                            <option value="postpartum">Postpartum Doula</option>
+                            <option value="lactation">Lactation Consultant</option>
+                            <option value="sleep">Sleep Specialist</option>
+                        </select>
+                    </div>
+                    <button onclick="filterDoulas()" class="bg-deep-forest text-white px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all m-1">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="py-8 bg-white border-b border-gray-200 sticky top-16 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap gap-3 items-center justify-center md:justify-start">
+                <span class="text-gray-500 font-medium mr-2">Filter by:</span>
+                
+                <button onclick="toggleFilter(this, 'language')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="hindi">
+                    Hindi
+                </button>
+                <button onclick="toggleFilter(this, 'language')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="marathi">
+                    Marathi
+                </button>
+                <button onclick="toggleFilter(this, 'language')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="gujarati">
+                    Gujarati
+                </button>
+                <button onclick="toggleFilter(this, 'language')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="english">
+                    English
+                </button>
+                
+                <div class="w-px h-6 bg-gray-300 mx-2 hidden md:block"></div>
+                
+                <button onclick="toggleFilter(this, 'experience')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="5+">
+                    5+ Years Exp
+                </button>
+                <button onclick="toggleFilter(this, 'availability')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="available">
+                    Available Now
+                </button>
+                <button onclick="toggleFilter(this, 'rating')" class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-sm font-medium transition-all hover:border-sage-500" data-filter="top-rated">
+                    Top Rated (4.8+)
+                </button>
+                
+                <button onclick="clearFilters()" class="ml-auto text-sage-600 hover:text-sage-700 text-sm font-medium underline hidden" id="clearFilters">
+                    Clear all filters
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="py-12 bg-earth-50 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <p class="text-gray-600"><span id="resultsCount" class="font-bold text-deep-forest">12</span> certified doulas found</p>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Sort by:</span>
+                    <select id="sortSelect" onchange="sortDoulas()" class="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm outline-none focus:border-sage-500">
+                        <option value="recommended">Recommended</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="experience">Most Experienced</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Doula Cards Grid -->
+            <div id="doulasGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Doula Card 1 -->
+                <div class="doula-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border border-gray-100" 
+                     data-name="Priya Sharma" data-location="bandra" data-service="birth" data-language="hindi english" data-experience="8" data-rating="4.9" data-price="25000" data-available="true">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=600&q=80" alt="Priya Sharma" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-deep-forest shadow-sm">
+                            <i class="fas fa-check-circle text-sage-500 mr-1"></i>Verified
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <div class="flex items-center gap-1 text-white">
+                                <i class="fas fa-star star-rating"></i>
+                                <span class="font-bold">4.9</span>
+                                <span class="text-sm opacity-90">(47 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-deep-forest">Priya Sharma</h3>
+                                <p class="text-sage-600 text-sm"><i class="fas fa-map-marker-alt mr-1"></i>Bandra, Mumbai</p>
+                            </div>
+                            <span class="bg-sage-100 text-sage-700 px-3 py-1 rounded-full text-xs font-semibold">Birth Doula</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Specialized in hypnobirthing and VBAC support. 8 years of experience supporting 200+ families.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Hindi</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">English</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Hypnobirthing</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                                <span class="text-2xl font-bold text-deep-forest">₹25,000</span>
+                                <span class="text-xs text-gray-500">/visit</span>
+                            </div>
+                            <button onclick="openBookingModal('Priya Sharma')" class="bg-deep-forest text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doula Card 2 -->
+                <div class="doula-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border border-gray-100"
+                     data-name="Ananya Desai" data-location="andheri" data-service="postpartum" data-language="marathi hindi english" data-experience="5" data-rating="4.8" data-price="30000" data-available="true">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=600&q=80" alt="Ananya Desai" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-deep-forest shadow-sm">
+                            <i class="fas fa-check-circle text-sage-500 mr-1"></i>Verified
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <div class="flex items-center gap-1 text-white">
+                                <i class="fas fa-star star-rating"></i>
+                                <span class="font-bold">4.8</span>
+                                <span class="text-sm opacity-90">(32 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-deep-forest">Ananya Desai</h3>
+                                <p class="text-sage-600 text-sm"><i class="fas fa-map-marker-alt mr-1"></i>Andheri, Mumbai</p>
+                            </div>
+                            <span class="bg-clay-100 text-clay-700 px-3 py-1 rounded-full text-xs font-semibold">Postpartum</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Expert in traditional Indian postpartum care (Jaappa), lactation support, and newborn care.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Marathi</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Hindi</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">English</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                                <span class="text-2xl font-bold text-deep-forest">₹30,000</span>
+                                <span class="text-xs text-gray-500">/visit</span>
+                            </div>
+                            <button onclick="openBookingModal('Ananya Desai')" class="bg-deep-forest text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doula Card 3 -->
+                <div class="doula-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border border-gray-100"
+                     data-name="Meera Patel" data-location="juhu" data-service="lactation" data-language="gujarati hindi english" data-experience="12" data-rating="5.0" data-price="35000" data-available="false">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80" alt="Meera Patel" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-deep-forest shadow-sm">
+                            <i class="fas fa-check-circle text-sage-500 mr-1"></i>Verified
+                        </div>
+                        <div class="absolute top-4 left-4 bg-clay-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                            <i class="fas fa-crown mr-1"></i>Top Rated
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <div class="flex items-center gap-1 text-white">
+                                <i class="fas fa-star star-rating"></i>
+                                <span class="font-bold">5.0</span>
+                                <span class="text-sm opacity-90">(89 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-deep-forest">Meera Patel</h3>
+                                <p class="text-sage-600 text-sm"><i class="fas fa-map-marker-alt mr-1"></i>Juhu, Mumbai</p>
+                            </div>
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">Lactation</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">IBCLC certified lactation consultant with 12 years experience. Specializes in complex breastfeeding challenges.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Gujarati</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Hindi</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">IBCLC</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                                <span class="text-2xl font-bold text-deep-forest">₹35,000</span>
+                                <span class="text-xs text-gray-500">/visit</span>
+                            </div>
+                            <button onclick="openBookingModal('Meera Patel')" class="bg-deep-forest text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doula Card 4 -->
+                <div class="doula-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border border-gray-100"
+                     data-name="Sarah Johnson" data-location="powai" data-service="birth" data-language="english" data-experience="6" data-rating="4.7" data-price="40000" data-available="true">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80" alt="Sarah Johnson" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-deep-forest shadow-sm">
+                            <i class="fas fa-check-circle text-sage-500 mr-1"></i>Verified
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <div class="flex items-center gap-1 text-white">
+                                <i class="fas fa-star star-rating"></i>
+                                <span class="font-bold">4.7</span>
+                                <span class="text-sm opacity-90">(28 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-deep-forest">Sarah Johnson</h3>
+                                <p class="text-sage-600 text-sm"><i class="fas fa-map-marker-alt mr-1"></i>Powai, Mumbai</p>
+                            </div>
+                            <span class="bg-sage-100 text-sage-700 px-3 py-1 rounded-full text-xs font-semibold">Birth Doula</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Western-trained doula specializing in water births and gentle cesarean support. Evidence-based care.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">English</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Water Birth</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                                <span class="text-2xl font-bold text-deep-forest">₹40,000</span>
+                                <span class="text-xs text-gray-500">/visit</span>
+                            </div>
+                            <button onclick="openBookingModal('Sarah Johnson')" class="bg-deep-forest text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doula Card 5 -->
+                <div class="doula-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border border-gray-100"
+                     data-name="Lakshmi Iyer" data-location="south-mumbai" data-service="postpartum" data-language="tamil hindi english" data-experience="15" data-rating="4.9" data-price="28000" data-available="true">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Lakshmi Iyer" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-deep-forest shadow-sm">
+                            <i class="fas fa-check-circle text-sage-500 mr-1"></i>Verified
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <div class="flex items-center gap-1 text-white">
+                                <i class="fas fa-star star-rating"></i>
+                                <span class="font-bold">4.9</span>
+                                <span class="text-sm opacity-90">(156 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-deep-forest">Lakshmi Iyer</h3>
+                                <p class="text-sage-600 text-sm"><i class="fas fa-map-marker-alt mr-1"></i>South Mumbai</p>
+                            </div>
+                            <span class="bg-clay-100 text-clay-700 px-3 py-1 rounded-full text-xs font-semibold">Postpartum</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Traditional Tamil postpartum specialist (Kuzhali). Expert in herbal baths, binding, and newborn massage.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Tamil</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Hindi</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Traditional Care</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                                <span class="text-2xl font-bold text-deep-forest">₹28,000</span>
+                                <span class="text-xs text-gray-500">/visit</span>
+                            </div>
+                            <button onclick="openBookingModal('Lakshmi Iyer')" class="bg-deep-forest text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doula Card 6 -->
+                <div class="doula-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover-lift border border-gray-100"
+                     data-name="Riya Malhotra" data-location="thane" data-service="sleep" data-language="hindi english" data-experience="4" data-rating="4.6" data-price="22000" data-available="true">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=600&q=80" alt="Riya Malhotra" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-deep-forest shadow-sm">
+                            <i class="fas fa-check-circle text-sage-500 mr-1"></i>Verified
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <div class="flex items-center gap-1 text-white">
+                                <i class="fas fa-star star-rating"></i>
+                                <span class="font-bold">4.6</span>
+                                <span class="text-sm opacity-90">(19 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-deep-forest">Riya Malhotra</h3>
+                                <p class="text-sage-600 text-sm"><i class="fas fa-map-marker-alt mr-1"></i>Thane, Mumbai</p>
+                            </div>
+                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">Sleep Specialist</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Certified infant sleep consultant. Gentle sleep training methods for babies 4 months and up.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Hindi</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">English</span>
+                            <span class="px-2 py-1 bg-earth-100 text-gray-600 rounded text-xs">Sleep Training</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                                <span class="text-2xl font-bold text-deep-forest">₹22,000</span>
+                                <span class="text-xs text-gray-500">/visit</span>
+                            </div>
+                            <button onclick="openBookingModal('Riya Malhotra')" class="bg-deep-forest text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center mt-12">
+                <button class="border-2 border-deep-forest text-deep-forest px-8 py-3 rounded-full font-semibold hover:bg-deep-forest hover:text-white transition-all">
+                    Load More Doulas
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl text-deep-forest mb-4">Simple Steps to Care</h2>
+                <p class="text-gray-600">From search to support in 4 easy steps</p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-sage-200 transition-colors">
+                        <span class="text-2xl font-serif font-bold text-sage-600">1</span>
+                    </div>
+                    <h4 class="font-bold text-deep-forest mb-2">Browse & Filter</h4>
+                    <p class="text-sm text-gray-600">Search by location, language, and specialization</p>
+                </div>
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-sage-200 transition-colors">
+                        <span class="text-2xl font-serif font-bold text-sage-600">2</span>
+                    </div>
+                    <h4 class="font-bold text-deep-forest mb-2">View Profiles</h4>
+                    <p class="text-sm text-gray-600">Read reviews, check credentials, and compare</p>
+                </div>
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-sage-200 transition-colors">
+                        <span class="text-2xl font-serif font-bold text-sage-600">3</span>
+                    </div>
+                    <h4 class="font-bold text-deep-forest mb-2">Book Consult</h4>
+                    <p class="text-sm text-gray-600">Schedule a free 15-minute chemistry call</p>
+                </div>
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-sage-200 transition-colors">
+                        <span class="text-2xl font-serif font-bold text-sage-600">4</span>
+                    </div>
+                    <h4 class="font-bold text-deep-forest mb-2">Begin Care</h4>
+                    <p class="text-sm text-gray-600">Start your journey with continuous support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 modal-enter relative">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calendar-check text-sage-600 text-2xl"></i>
+                </div>
+                <h3 class="font-serif text-2xl text-deep-forest mb-2">Book a Consultation</h3>
+                <p class="text-gray-600 text-sm">Free 15-minute chemistry call with <span id="modalDoulaName" class="font-bold"></span></p>
+            </div>
+            <form onsubmit="submitBooking(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                    <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Expected Due Date</label>
+                    <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Time</label>
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sage-500 focus:border-transparent outline-none">
+                        <option>Morning (9AM - 12PM)</option>
+                        <option>Afternoon (12PM - 4PM)</option>
+                        <option>Evening (4PM - 7PM)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-deep-forest text-white py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all mt-2">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-deep-forest text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-deep-forest">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold">FOURTH TRIMESTER CO.</span>
+                    </div>
+                    <p class="text-sage-200 max-w-sm mb-6">
+                        Reclaiming the ancient tradition of continuous maternal support through modern technology and verified care networks.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-clay-300">Platform</h4>
+                    <ul class="space-y-3 text-sage-200">
+                        <li><a href="find-a-doula.html" class="hover:text-white transition-colors">Find a Doula</a></li>
+                        <li><a href="join-as-doula.html" class="hover:text-white transition-colors">Join as Doula</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-clay-300">Contact</h4>
+                    <ul class="space-y-3 text-sage-200">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-phone text-clay-400"></i>
+                            <span>+91 9560152117</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-clay-400"></i>
+                            <span>contact@thefourthtrimesterco.in</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-sage-300">
+                <p>&copy; 2026 The Fourth Trimester Co. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let activeFilters = {
+            language: [],
+            experience: [],
+            availability: [],
+            rating: []
+        };
+
+        function toggleFilter(btn, type) {
+            const value = btn.dataset.filter;
+            
+            if (btn.classList.contains('filter-active')) {
+                btn.classList.remove('filter-active');
+                activeFilters[type] = activeFilters[type].filter(v => v !== value);
+            } else {
+                btn.classList.add('filter-active');
+                activeFilters[type].push(value);
+            }
+            
+            document.getElementById('clearFilters').classList.toggle('hidden', 
+                Object.values(activeFilters).every(arr => arr.length === 0));
+            
+            filterDoulas();
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('filter-active');
+            });
+            activeFilters = { language: [], experience: [], availability: [], rating: [] };
+            document.getElementById('clearFilters').classList.add('hidden');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('locationSelect').value = '';
+            document.getElementById('serviceSelect').value = '';
+            filterDoulas();
+        }
+
+        function filterDoulas() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const location = document.getElementById('locationSelect').value;
+            const service = document.getElementById('serviceSelect').value;
+            const cards = document.querySelectorAll('.doula-card');
+            
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const cardLocation = card.dataset.location;
+                const cardService = card.dataset.service;
+                const languages = card.dataset.language.split(' ');
+                const experience = parseInt(card.dataset.experience);
+                const rating = parseFloat(card.dataset.rating);
+                const available = card.dataset.available === 'true';
+                
+                let matches = true;
+                
+                // Search term
+                if (searchTerm && !name.includes(searchTerm)) matches = false;
+                
+                // Location
+                if (location && cardLocation !== location) matches = false;
+                
+                // Service
+                if (service && cardService !== service) matches = false;
+                
+                // Language filters
+                if (activeFilters.language.length > 0) {
+                    if (!activeFilters.language.some(lang => languages.includes(lang))) matches = false;
+                }
+                
+                // Experience filter
+                if (activeFilters.experience.includes('5+') && experience < 5) matches = false;
+                
+                // Availability filter
+                if (activeFilters.availability.includes('available') && !available) matches = false;
+                
+                // Rating filter
+                if (activeFilters.rating.includes('top-rated') && rating < 4.8) matches = false;
+                
+                if (matches) {
+                    card.classList.remove('hidden-card');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden-card');
+                }
+            });
+            
+            document.getElementById('resultsCount').textContent = visibleCount;
+        }
+
+        function sortDoulas() {
+            const sortValue = document.getElementById('sortSelect').value;
+            const grid = document.getElementById('doulasGrid');
+            const cards = Array.from(grid.children);
+            
+            cards.sort((a, b) => {
+                switch(sortValue) {
+                    case 'rating':
+                        return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+                    case 'experience':
+                        return parseInt(b.dataset.experience) - parseInt(a.dataset.experience);
+                    case 'price-low':
+                        return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+                    case 'price-high':
+                        return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+                    default:
+                        return 0;
+                }
+            });
+            
+            cards.forEach(card => grid.appendChild(card));
+        }
+
+        function openBookingModal(doulaName) {
+            document.getElementById('modalDoulaName').textContent = doulaName;
+            document.getElementById('bookingModal').classList.remove('hidden');
+            document.getElementById('bookingModal').classList.add('flex');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.getElementById('bookingModal').classList.remove('flex');
+        }
+
+        function submitBooking(e) {
+            e.preventDefault();
+            closeBookingModal();
+            alert('Booking request submitted! You will receive a confirmation shortly.');
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterDoulas);
+        document.getElementById('locationSelect').addEventListener('change', filterDoulas);
+        document.getElementById('serviceSelect').addEventListener('change', filterDoulas);
+        
+        // Close modal on outside click
+        document.getElementById('bookingModal').addEventListener('click', function(e) {
+            if (e.target === this) closeBookingModal();
+        });
+    </script>
+</body>
+</html>
